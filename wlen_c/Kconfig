@@ -1,0 +1,66 @@
+menu "wled_c LED controller"
+
+config WLEDC_FPS
+    int "Effect engine refresh rate (FPS)"
+    default 42
+    range 10 120
+    help
+        Target frame rate of the effect engine, equivalent to WLED_FPS.
+        42 FPS yields a frame time of roughly 23.8 ms. The refresh task
+        is aligned to this rate with vTaskDelayUntil.
+
+config WLEDC_FRAME_MAX_DELAYS
+    int "Max consecutive skipped frames before forced refresh"
+    default 4
+    range 1 60
+
+config WLEDC_TASK_STACK_SIZE
+    int "Refresh task stack size (bytes)"
+    default 4096
+    help
+        Stack size of the internal FreeRTOS task that advances the
+        effect engine and pushes frames to the buses.
+
+config WLEDC_TASK_PRIORITY
+    int "Refresh task priority"
+    default 5
+    range 1 24
+
+config WLEDC_MAX_SEGMENTS
+    int "Maximum number of segments"
+    default 32
+    range 1 32
+    help
+        Upper bound of simultaneously active segments, equivalent to
+        WLED's MAX_NUM_SEGMENTS. Each segment carries runtime state so
+        keep this as low as your use case requires.
+
+config WLEDC_MAX_BUSES
+    int "Maximum number of LED buses"
+    default 4
+    range 1 8
+    help
+        Number of concurrently registered output buses. On ESP32 each
+        WS2812 bus occupies one RMT TX channel (8 available, reduced
+        when other peripherals use them).
+
+config WLEDC_MAX_LEDS_PER_BUS
+    int "Maximum LEDs per bus"
+    default 512
+    range 1 2048
+
+config WLEDC_ENABLE_2D
+    bool "Enable 2D matrix support"
+    default y
+    help
+        Compiles segment height, 2D effects and matrix related helpers.
+        Disable on strips-only builds to save flash and RAM.
+
+config WLEDC_ENABLE_TRANSITIONS
+    bool "Enable segment transition blending"
+    default y
+    help
+        Interpolates colors between the old and new segment state while
+        a transition is in progress (WLED Segment::Transition).
+
+endmenu

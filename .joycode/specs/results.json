@@ -1,0 +1,85 @@
+{
+  "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4": [
+    {
+      "message": "组件骨架与公共类型定义",
+      "status": "IN_PROGRESS",
+      "specName": "wled-c-rewrite",
+      "specTaskId": "1",
+      "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
+      "_from": "specTask",
+      "_t": 1788958774019
+    },
+    {
+      "message": "组件骨架与公共类型定义",
+      "status": "FINISHED",
+      "specName": "wled-c-rewrite",
+      "specTaskId": "1",
+      "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
+      "_from": "specTask",
+      "_t": 1788959103772
+    },
+    {
+      "message": "色彩处理纯函数模块",
+      "status": "IN_PROGRESS",
+      "specName": "wled-c-rewrite",
+      "specTaskId": "2",
+      "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
+      "_from": "specTask",
+      "_t": 1789005085946
+    },
+    {
+      "message": "色彩处理纯函数模块",
+      "status": "FINISHED",
+      "specName": "wled-c-rewrite",
+      "specTaskId": "2",
+      "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
+      "_from": "specTask",
+      "_t": 1789005995290
+    },
+    {
+      "message": "调色板纯函数模块",
+      "status": "IN_PROGRESS",
+      "specName": "wled-c-rewrite",
+      "specTaskId": "3",
+      "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
+      "_from": "specTask",
+      "_t": 1789006268886
+    },
+    {
+      "message": "调色板纯函数模块",
+      "status": "FINISHED",
+      "specName": "wled-c-rewrite",
+      "specTaskId": "3",
+      "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
+      "_from": "specTask",
+      "_t": 1789020409463
+    },
+    {
+      "message": "总线抽象层与 RMT 输出驱动",
+      "status": "IN_PROGRESS",
+      "specName": "wled-c-rewrite",
+      "specTaskId": "4",
+      "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
+      "_from": "specTask",
+      "_t": 1789021391235
+    },
+    {
+      "message": "RMT WS2812 驱动",
+      "status": "IN_PROGRESS",
+      "specName": "wled-c-rewrite",
+      "specTaskId": "4",
+      "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
+      "_from": "specTask",
+      "_t": 1789021410273
+    },
+    {
+      "message": "RMT WS2812 驱动",
+      "status": "FINISHED",
+      "specName": "wled-c-rewrite",
+      "specTaskId": "4",
+      "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
+      "_from": "specTask",
+      "_t": 1789021816772
+    }
+  ]
+}
