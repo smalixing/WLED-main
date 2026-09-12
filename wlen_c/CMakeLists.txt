@@ -19,6 +19,8 @@ idf_component_register(
          "src/wled_c_fx_support.c"
          "src/wled_c_fx_1d.c"
          "src/wled_c_fx_2d.c"
+         "src/wled_c_bri.c"
+         "src/wled_c_strip.c"
     INCLUDE_DIRS "include"
     REQUIRES driver
     PRIV_REQUIRES esp_timer

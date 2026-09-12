@@ -98,6 +98,24 @@
       "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
       "_from": "specTask",
       "_t": 1789026379833
+    },
+    {
+      "message": "亮度模块与灯带核心",
+      "status": "IN_PROGRESS",
+      "specName": "wled-c-rewrite",
+      "specTaskId": "11",
+      "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
+      "_from": "specTask",
+      "_t": 1789202764230
+    },
+    {
+      "message": "亮度模块与灯带核心",
+      "status": "FINISHED",
+      "specName": "wled-c-rewrite",
+      "specTaskId": "11",
+      "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
+      "_from": "specTask",
+      "_t": 1789208754658
     }
   ]
 }
