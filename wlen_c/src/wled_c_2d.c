@@ -62,8 +62,15 @@ esp_err_t wledc_segment_virtual_height(const wledc_segment_t *seg,
         return WLEDC_ERR_NOT_2D;
     }
     if (seg->options & SEG_OPT_TRANSPOSE) {
-        /* WLED:TRANSPOSE 下 vHeight = vWidth。 */
-        return wledc_segment_virtual_width(seg, out_vh);
+        /* WLED 原生(FX_fcn.cpp virtualHeight):TRANSPOSE 下 vHeight 由
+         * 物理宽度推得并经 mirror_y 折半;本层不含 grouping 折叠,见
+         * wled_c_2d.h 任务 8/9 归属说明。 */
+        uint16_t h = phys_width(seg);
+        if (seg->options & SEG_OPT_MIRROR_Y) {
+            h = (uint16_t)((h + 1u) / 2u); /* Y 镜像复制半幅 */
+        }
+        *out_vh = h;
+        return ESP_OK;
     }
     uint16_t h = phys_height(seg);
     if (seg->options & SEG_OPT_MIRROR_Y) {

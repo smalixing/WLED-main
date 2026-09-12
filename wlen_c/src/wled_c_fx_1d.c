@@ -47,7 +47,7 @@ static uint16_t fx1d_virtual_length(const wledc_segment_t *seg)
     uint16_t group_len = (uint16_t)(seg->grouping + seg->spacing);
     if (group_len == 0) group_len = 1; /* UI 约束 grouping>=1,防御性兜底 */
     uint16_t v_length = (uint16_t)((length + group_len - 1) / group_len); /* ceil */
-    if (FX1D_OPT(seg, WLEDC_SEG_OPT_MIRROR)) {
+    if (FX1D_OPT(seg, SEG_OPT_MIRROR)) {
         v_length = (uint16_t)((v_length + 1) / 2);
     }
     return v_length;
@@ -66,13 +66,13 @@ static void fx1d_set_pixel(wledc_segment_t *seg, uint16_t k, uint32_t c)
     if (group_len == 0) group_len = 1;
 
     uint16_t i = k;
-    if (FX1D_OPT(seg, WLEDC_SEG_OPT_REVERSE)) i = (uint16_t)(n_len - i - 1);
+    if (FX1D_OPT(seg, SEG_OPT_REVERSE)) i = (uint16_t)(n_len - i - 1);
 
     uint32_t t     = (uint32_t)i * group_len + seg->grouping;
     uint16_t max_i = (t < length) ? (uint16_t)t : length;
 
     while (i < max_i) {
-        if (FX1D_OPT(seg, WLEDC_SEG_OPT_MIRROR)) {
+        if (FX1D_OPT(seg, SEG_OPT_MIRROR)) {
             seg->pixels[(uint16_t)(length - 1 - i)] = c;
         }
         seg->pixels[i] = c;

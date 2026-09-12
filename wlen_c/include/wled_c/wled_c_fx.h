@@ -63,7 +63,14 @@ uint16_t wledc_fx_run(wledc_segment_t *seg, wledc_time_ms_t now);
  */
 wledc_time_ms_t wledc_fx_now(void);
 
-/** Number of effect slots in the dispatch table. */
+/**
+ * Upper bound (exclusive) of the effect id space.
+ *
+ * 1D effects occupy ids 0..76; when compiled with WLEDC_ENABLE_2D, 2D
+ * effects additionally occupy ids 114..186 (native FX_MODE_* numbering).
+ * The id space is therefore not contiguous (77..113 unused): use
+ * wledc_fx_get() to test whether a specific slot is implemented.
+ */
 size_t wledc_fx_count(void);
 
 /**

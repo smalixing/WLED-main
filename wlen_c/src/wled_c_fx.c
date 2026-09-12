@@ -7,6 +7,7 @@
 
 #include "wled_c/wled_c_fx.h"
 #include "wled_c/wled_c_fx_1d.h"
+#include "wled_c/wled_c_fx_2d.h" /* 2D 槽表;头文件内部按 WLEDC_ENABLE_2D 守卫 */
 
 #include <string.h>
 
@@ -15,12 +16,13 @@
 #include "wled_c/wled_c_palette.h"
 
 /* ================================================================ */
-/* 效果函数表:转发到 1D 效果表(wled_c_fx_1d.c,任务 9)               */
-/* 已实现 49/77 槽;未实现槽为 NULL,由 fx_run 渲染黑帧回退          */
+/* 效果函数表路由:1D 槽 0..76(wled_c_fx_1d.c,任务 9)               */
+/* 2D 槽 114..186(wled_c_fx_2d.c,任务 10,WLEDC_ENABLE_2D)          */
+/* 未实现槽为 NULL,由 fx_run 渲染黑帧回退                          */
 /* ================================================================ */
 
-#define wledc_fx_table wledc_fx_1d_table()
-#define FX_TABLE_LEN   wledc_fx_1d_count()
+#define FX_1D_TABLE_LEN wledc_fx_1d_count()
+#define FX_2D_FIRST_ID  ((wledc_fx_id_t)114) /* 原生 FX_MODE_2DPLASMAROTOZOOM */
 
 /* ================================================================ */
 /* 引擎全局状态                                                      */
@@ -30,17 +32,45 @@ wledc_segment_t *_wledc_current_segment = NULL;
 
 static wledc_time_ms_t s_fx_now; /* 上次 fx_run 时刻,供效果函数 */
 
+/*
+ * 统一槽位解析:
+ *  - id 0..76    -> 1D 表(索引 = id)
+ *  - id 114..186 -> 2D 表(索引 = id - 114,仅 WLEDC_ENABLE_2D 时)
+ *  - 其余(77..113 原生空档 / 2D 关闭 / 越界)-> NULL -> 黑帧回退
+ */
+static wledc_fx_fn fx_slot_lookup(wledc_fx_id_t id)
+{
+    const wledc_fx_fn *table = wledc_fx_1d_table();
+    size_t len = FX_1D_TABLE_LEN;
+
+    if ((size_t)id < len) {
+        return table[id];
+    }
+
+#ifdef WLEDC_ENABLE_2D
+    table = wledc_fx_2d_table();
+    len = wledc_fx_2d_count();
+    if (id >= FX_2D_FIRST_ID && (size_t)(id - FX_2D_FIRST_ID) < len) {
+        return table[id - FX_2D_FIRST_ID];
+    }
+#endif
+
+    return NULL;
+}
+
 size_t wledc_fx_count(void)
 {
-    return FX_TABLE_LEN;
+#ifdef WLEDC_ENABLE_2D
+    /* id 空间上界(不含):0..76 连续 + 114..186 连续,77..113 空档。 */
+    return (size_t)FX_2D_FIRST_ID + wledc_fx_2d_count();
+#else
+    return FX_1D_TABLE_LEN;
+#endif
 }
 
 wledc_fx_fn wledc_fx_get(wledc_fx_id_t id)
 {
-    if (id >= FX_TABLE_LEN) {
-        return NULL;
-    }
-    return wledc_fx_table[id];
+    return fx_slot_lookup(id);
 }
 
 wledc_time_ms_t wledc_fx_now(void)
@@ -349,13 +379,15 @@ uint16_t wledc_fx_run(wledc_segment_t *seg, wledc_time_ms_t now)
     handle_random_palette(now);
     wledc_segment_reset_if_required(seg);
 
-    if (seg->mode >= FX_TABLE_LEN || wledc_fx_table[seg->mode] == NULL) {
+    wledc_fx_fn fx = fx_slot_lookup((wledc_fx_id_t)seg->mode);
+
+    if (fx == NULL) {
         render_black(seg); /* 越界 / 未注册槽:安全黑帧 */
         return WLEDC_FRAME_TIME_MS;
     }
 
     _wledc_current_segment = seg;
-    uint16_t delay = wledc_fx_table[seg->mode](seg);
+    uint16_t delay = fx(seg);
 
     /* 0 = 默认帧时;同时封顶防坏效果卡死调度器。 */
     if (delay == 0u || delay > WLEDC_FRAME_TIME_MS) {
