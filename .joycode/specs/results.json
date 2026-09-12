@@ -80,6 +80,24 @@
       "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
       "_from": "specTask",
       "_t": 1789021816772
+    },
+    {
+      "message": "灯段抽象与段组",
+      "status": "IN_PROGRESS",
+      "specName": "wled-c-rewrite",
+      "specTaskId": "6",
+      "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
+      "_from": "specTask",
+      "_t": 1789025803833
+    },
+    {
+      "message": "灯段抽象与段组",
+      "status": "FINISHED",
+      "specName": "wled-c-rewrite",
+      "specTaskId": "6",
+      "chatId": "task-2fb8149f-0a76-4b96-a5ca-0b5789f895a4",
+      "_from": "specTask",
+      "_t": 1789026379833
     }
   ]
 }

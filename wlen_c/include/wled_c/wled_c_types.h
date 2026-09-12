@@ -71,6 +71,20 @@ int wledc_version_patch(void);
   #define WLEDC_MAX_LEDS_PER_BUS 512
 #endif
 
+/**
+ * Feature switches bridged from Kconfig (both default to y there).
+ * Following the standard ESP-IDF convention: a bool option set to "n"
+ * leaves the CONFIG_ macro undefined, which disables the feature here.
+ * Consumers must test with #ifdef, never #if.
+ */
+#ifdef CONFIG_WLEDC_ENABLE_2D
+  #define WLEDC_ENABLE_2D 1
+#endif
+
+#ifdef CONFIG_WLEDC_ENABLE_TRANSITIONS
+  #define WLEDC_ENABLE_TRANSITIONS 1
+#endif
+
 /** Scale factor used for fractional speeds (WLED: SEGMENT.speed 0-255). */
 #define WLEDC_SPEED_MAX 255
 
@@ -179,6 +193,13 @@ typedef enum {
     WLEDC_ORDER_RBG = 3,
     WLEDC_ORDER_GBR = 4,
     WLEDC_ORDER_BGR = 5,
+    /* RGBW variants (6..11): 4-channel buses must use one of these. */
+    WLEDC_ORDER_GRBW = 6,
+    WLEDC_ORDER_RGBW = 7,
+    WLEDC_ORDER_BRGW = 8,
+    WLEDC_ORDER_RBGW = 9,
+    WLEDC_ORDER_GBRW = 10,
+    WLEDC_ORDER_BGRW = 11,
     WLEDC_ORDER_MAX,
 } wledc_color_order_t;
 
